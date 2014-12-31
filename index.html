@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<HTML>
+<head>
+<title>TECHNO-STARS | GPA COLLECTER</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<script src="http://www.parsecdn.com/js/parse-1.3.3.min.js"></script>
+</head>
+<body>
+	
+	<img src="images/srm.png" style="display: block;">
+	<h1><a href="https://www.facebook.com/groups/606303656140711/" target="_blank"><div>TECHNO-STARS</div></a></h1>
+	<fieldset>
+		<legend><h2>GPA COLLECTER</h2></legend>
+			<div class="label">FULL NAME <br /><input type="text" id="name" onkeypress="enter()"></div>
+			<div class="label">SECTION</div>
+				<select id="sec" onkeypress="enter()">
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+				</select>
+			<br /><br />
+			<div class="label">REGISTER NUMBER <br /><input type="text" id="roll" onkeyup="enter()"></div>
+			<div class="label">GPA <br /><input type="text" id="gpa" onkeyup="enter()"></div>
+			<br />
+			<div id="button" onclick="validate()" onload="enter()">SUBMIT</div>
+	</fieldset>
+	<br />
+	
+	<div  align="center"><span  style="color: #7FFFFF;">Any doubt in calculating your GPA? Click <a href="http://thatpixeldude.github.io/SrmGpaCalculator/" target="_blank">here</a> to check it!</span></div>
+	<br />
+	<div  align="center"><span><a href="https://www.facebook.com/GSThina" target="_blank">Done By</a><span></div>
+	<br /><br />
+	<div id="footer">POWERED BY | <span>THINK</span> DIGITAL</div>
+</body>
+</html>
+
+<script>
+var e;
+function enter(){
+    if (event.keyCode==13){
+		validate();
+	}
+}
+
+	
+function validate(){
+
+	var name	= document.getElementById("name").value;
+	var roll	= document.getElementById("roll").value;
+	var gpa		= document.getElementById("gpa").value;
+	if(name.length<4){
+		alert("Please enter your full name");
+	}else if(roll.length<10){
+		alert("Please enter your proper Register Number.");
+		}else if(gpa===""){
+			alert("Enter a valid GPA");
+			}else if(gpa>10){
+				alert("GPA has to be less than 10");
+				alert("Enter a valid GPA");
+				}else{
+					console.log(name);
+					console.log(roll);
+					console.log(gpa);
+					storeData();
+				}
+					
+}
+
+function storeData(){
+
+Parse.initialize("jsC3bfdVAD4InMCuRKdoBVwSEo6drRCAJycNhEJo", "cW9QUj0N5GtvXaNZ63HcbNg7f2XaFK8GKgJStUNB");
+
+var name	= document.getElementById("name").value;
+var roll	= document.getElementById("roll").value;
+var gpa		= document.getElementById("gpa").value;
+var section	= document.getElementById("sec").value;
+var STUDENT = Parse.Object.extend("STUDENT_" + section);
+var student = new STUDENT();
+
+student.set("Username", name);
+student.set("Roll", roll);
+student.set("GPA", gpa);
+student.set("SECTION", section);
+
+
+student.save(null, {
+  success: function(student) {
+    // Execute any logic that should take place after the object is saved.
+    alert('You have successfully entered the value for ' + roll +":" + name);
+	window.location= "index.html";
+  },
+  error: function(student, error) {
+    // Execute any logic that should take place if the save fails.
+    // error is a Parse.Error with an error code and message.
+    alert('Failed to create new object, with error code: ' + error.message);
+  }
+});
+}
+
+</script>
